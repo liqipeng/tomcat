@@ -58,10 +58,20 @@
   <build>
     <finalName>tomcat-${project.version}</finalName>
     <sourceDirectory>java</sourceDirectory>
-    <!--<testSourceDirectory>test</testSourceDirectory>-->
     <resources>
       <resource>
         <directory>java</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.dtd</include>
+          <include>**/*.tasks</include>
+          <include>**/*.xsd</include>
+          <include>**/*.xml</include>
+        </includes>
+        <!-- <excludes>
+          <exclude>**/LocalStrings*.properties</exclude>
+          <exclude>**/Messages*.properties</exclude>
+        </excludes> -->
       </resource>
     </resources>
     <testResources>
@@ -100,6 +110,131 @@
                 <source>test/javax</source>
                 <source>test/util</source>
               </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>copy-resources-tomcat</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/classes/META-INF</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>res/META-INF</directory>
+                  <excludes>
+                    <exclude>**/jasper.jar/**</exclude>
+                    <exclude>**/jasper-el.jar/**</exclude>
+                    <exclude>**/tomcat-websocket.jar/**</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-resources-jasper-jar</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/jasper.jar.classes/META-INF</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>res/META-INF/jasper.jar</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-resources-jasper-el-jar</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/jasper-el.jar.classes/META-INF</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>res/META-INF/jasper-el.jar</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-resources-tomcat-websocket-jar</id>
+            <!-- here the phase you need -->
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/tomcat-websocket.jar.classes/META-INF</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>res/META-INF/tomcat-websocket.jar</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>jasper-jar</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>jasper</classifier>
+              <!-- classesDirectory是相对于项目根路径的 -->
+              <classesDirectory>target/jasper.jar.classes</classesDirectory>
+              <!-- 默认includes是classesDirectory下全部，所以这里的includes实际可省略 -->
+              <includes>
+                <!-- include是target/classes/下的路径 -->
+                <include>**</include>
+              </includes>
+              <outputDirectory>${basedir}/lib</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>jasper-el-jar</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>jasper-el</classifier>
+              <classesDirectory>target/jasper-el.jar.classes</classesDirectory>
+              <outputDirectory>${basedir}/lib</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>tomcat-websocket-jar</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <classifier>websocket</classifier>
+              <classesDirectory>target/tomcat-websocket.jar.classes</classesDirectory>
+              <outputDirectory>${basedir}/lib</outputDirectory>
             </configuration>
           </execution>
         </executions>

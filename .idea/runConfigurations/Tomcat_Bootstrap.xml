@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tomcat-Bootstrap" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="org.apache.catalina.startup.Bootstrap" />
+    <module name="apache-tomcat-8.5.x-src" />
+    <option name="VM_PARAMETERS" value="-Duser.lang=en -Duser.language=en -Duser.region=US -Dcatalina.home=./ -Dcatalina.base=./ -Djava.io.tmpdir=./temp -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.util.logging.config.file=conf/logging.properties" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="org.apache.catalina.startup.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
